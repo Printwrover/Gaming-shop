@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Gaming - Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6c5ce7',
+                        secondary: '#a29bfe',
+                        dark: '#2d3436',
+                        accent: '#00cec9',
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0f0f1a;
+            color: white;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #6c5ce7 0%, #2d3436 100%);
+        }
+
+        body.light-mode .hero-gradient {
+            background: linear-gradient(135deg, #6c5ce7 0%, #e2e8f0 100%);
+        }
+
+        body.light-mode .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .shop-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.3), 0 10px 10px -5px rgba(124, 58, 237, 0.1);
+        }
+
+        body.light-mode .shop-card {
+            background-color: #e5e7eb;
+        }
+
+        body.light-mode .shop-card:hover {
+            background-color: #d1d5db;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(108, 92, 231, 0.8);
+        }
+
+        body.light-mode .glow-text {
+            text-shadow: none;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+            }
+        }
+
+        body.light-mode .pulse {
+            animation: pulse-light 2s infinite;
+        }
+
+        @keyframes pulse-light {
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+            }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #6c5ce7;
+            white-space: nowrap;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        body.light-mode .typewriter {
+            border-right-color: #6c5ce7;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #6c5ce7; }
+        }
+
+        .shop-card.hidden {
+            display: none;
+        }
+
+        body.light-mode nav {
+            background-color: #f8f9fa;
+        }
+
+        body.light-mode .bg-black {
+            background-color: #f8f9fa;
+        }
+
+        body.light-mode .bg-gray-900 {
+            background-color: #e5e7eb;
+        }
+
+        body.light-mode .bg-dark {
+            background-color: #e2e8f0;
+        }
+
+        body.light-mode .bg-gradient-to-r {
+            background: linear-gradient(to right, #6c5ce7, #00cec9);
+        }
+
+        body.light-mode .text-gray-300 {
+            color: #374151;
+        }
+
+        body.light-mode .text-gray-400 {
+            color: #4b5563;
+        }
+
+        body.light-mode .text-white {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .text-accent {
+            color: #00cec9;
+        }
+
+        body.light-mode .border-gray-800 {
+            border-color: #d1d5db;
+        }
+
+        body.light-mode .border-gray-700 {
+            border-color: #9ca3af;
+        }
+
+        body.light-mode .text-primary {
+            color: #6c5ce7;
+        }
+
+        body.light-mode .hover\:bg-primary:hover {
+            background-color: #5a4cd1;
+        }
+
+        body.light-mode .hover\:text-white:hover {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .bg-primary {
+            background-color: #6c5ce7;
+        }
+
+        body.light-mode .hover\:bg-purple-700:hover {
+            background-color: #5a4cd1;
+        }
+
+        body.light-mode .bg-gray-800 {
+            background-color: #374151;
+        }
+
+        body.light-mode .hover\:bg-gray-700:hover {
+            background-color: #4b5563;
+        }
+
+        body.light-mode .bg-gray-700 {
+            background-color: #4b5563;
+        }
+
+        body.light-mode .hover\:bg-gray-600:hover {
+            background-color: #6b7280;
+        }
+
+        body.light-mode .user-avatar {
+            border: 2px solid #d1d5db;
+        }
+
+        body.light-mode .fa-chevron-down,
+        body.light-mode .fa-shopping-cart,
+        body.light-mode .fa-moon,
+        body.light-mode .fa-sun,
+        body.light-mode .fa-bars,
+        body.light-mode .fa-arrow-right,
+        body-light-mode .fa-paper-plane {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .filter-input,
+        body.light-mode .filter-select {
+            background-color: #f3f4f6;
+            color: #1a1a1a;
+        }
+
+        body.light-mode .filter-input::placeholder {
+            color: #6b7280;
+        }
+
+        body.light-mode .filter-input:focus,
+        body.light-mode .filter-select:focus {
+            ring-color: #6c5ce7;
+        }
+
+        body.light-mode .newsletter-input {
+            background-color: #f3f4f6;
+            color: #1a1a1a;
+        }
+
+        body.light-mode .newsletter-input::placeholder {
+            color: #6b7280;
+        }
+
+        body.light-mode .newsletter-input:focus {
+            ring-color: #6c5ce7;
+        }
+
+        body.light-mode .bg-black.text-white {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        body.light-mode .hover\:bg-gray-900:hover {
+            background-color: #111827;
+        }
+
+        .action-button {
+            color: #ffffff;
+        }
+
+        .action-button i {
+            color: #ffffff;
+        }
+
+        body.light-mode .shop-now-button,
+        body.light-mode .browse-all-button,
+        body.light-mode .add-to-cart-button,
+        body.light-mode .learn-more-button,
+        body.light-mode .load-more-button {
+            color: #ffffff;
+        }
+
+        body.light-mode .shop-now-button i,
+        body.light-mode .browse-all-button i,
+        body.light-mode .add-to-cart-button i,
+        body.light-mode .load-more-button i {
+            color: #ffffff;
+        }
+
+        .filter-button,
+        body.light-mode .filter-button {
+            color: #ffffff;
+        }
+
+        .filter-button i,
+        body.light-mode .filter-button i {
+            color:  #ffffff;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-black bg-opacity-80 backdrop-blur-md fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="Home.html">
+                            <span class="text-2xl font-bold text-primary font-orbitron glow-text">NEXUS</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Menu Items -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="Home.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                    <a href="Game.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Games</a>
+                    <a href="News.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">News</a>
+                    <a href="Esports.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Esports</a>
+                    <a href="Shop.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Shop</a>
+                    
+                    <!-- Cart -->
+                    <a href="cart.html" class="relative text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Cart
+                        <span id="cart-count" class="absolute top-0 right-0 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                    </a>
+
+                    <!-- User Profile -->
+                   <div class="relative dropdown">
+                        <button class="text-white hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+                            <span id="username">GamerX123</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-gray-900 rounded-lg shadow-lg py-2 z-50">
+                            <a href="accout.html" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Account</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Login</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Logout</a>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="Home.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Home</a>
+                <a href="Game.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Games</a>
+                <a href="News.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">News</a>
+                <a href="Esports.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Esports</a>
+                <a href="Shop.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Shop</a>
+                <a href="cart.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition flex items-center">
+                    <i class="fas fa-shopping-cart mr-2"></i> Cart
+                    <span id="mobile-cart-count" class="bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center ml-2">2</span>
+                </a>
+                <div class="border-t border-gray-700 pt-2">
+                    <div class="flex items-center px-4 py-2">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User Avatar" class="w-8 h-8 rounded-full mr-2 user-avatar">
+                        <span id="mobile-username" class="text-white font-bold">GamerX123</span>
+                    </div>
+                    <a href="account.html" class="block px-4 py-2 text-white bg-primary hover:bg-purple-700 transition">Account</a>
+                    <a href="Login.html" id="mobile-login-link" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition hidden">Login</a>
+                    <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Logout</a>
+                    <button id="mobile-theme-toggle" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition flex items-center">
+                        <i id="mobile-theme-icon" class="fas fa-moon mr-2"></i> Toggle Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+        <div class="absolute inset-0 opacity-20 hero-overlay">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')] bg-cover bg-center"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 z-10">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 font-orbitron glow-text">
+                    <span class="text-center mb-12">NEXUS SHOP</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+                    Discover exclusive in-game items, merchandise, and premium content to enhance your Nexus Gaming experience.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="action-button shop-now-button bg-primary hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-bold transition transform hover:scale-105 shadow-lg pulse">
+                        <i class="fas fa-shopping-cart mr-2"></i> SHOP NOW
+                    </button>
+                    <button class="action-button browse-all-button bg-transparent border-2 border-white hover:bg-white hover:text-dark text-white px-8 py-4 rounded-lg text-lg font-bold transition transform hover:scale-105 shadow-lg">
+                        BROWSE ALL <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+    </section>
+
+    <!-- Shop Section -->
+    <section class="py-20 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 font-orbitron glow-text">BROWSE OUR SHOP</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Find the perfect items to elevate your gaming experience, from skins to exclusive merchandise.
+                </p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <div class="relative flex-grow max-w-xl">
+                    <input type="text" placeholder="Search items..." class="filter-input px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-primary w-full pl-10">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <select class="filter-select px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">All Categories</option>
+                    <option value="skins">Skins</option>
+                    <option value="battle-pass">Battle Pass</option>
+                    <option value="bundles">Bundles</option>
+                    <option value="collectors">Collector's Editions</option>
+                    <option value="premium">Premium Packs</option>
+                </select>
+                <select class="filter-select px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">All Games</option>
+                    <option value="cyber-nexus">Cyber Nexus</option>
+                    <option value="legends-of-valor">Legends of Valor</option>
+                    <option value="neon-horizon">Neon Horizon</option>
+                    <option value="shadow-strike">Shadow Strike</option>
+                    <option value="galactic-empires">Galactic Empires</option>
+                </select>
+                <button class="action-button filter-button px-4 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition">
+                    <i class="fas fa-filter mr-2"></i> Filters
+                </button>
+            </div>
+
+            <!-- Shop Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="shop-grid">
+                <!-- Shop Card 1 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Cyber Nexus Elite Skin" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded">SKIN</span>
+                            <h3 class="text-2xl font-bold mt-2">Cyber Nexus Elite Skin</h3>
+                            <p class="text-gray-300 text-sm">$19.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Unlock the exclusive Elite Skin for Cyber Nexus, featuring unique animations and effects.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Card 2 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1560253023-3ec5d502959f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Legends of Valor Battle Pass" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">BATTLE PASS</span>
+                            <h3 class="text-2xl font-bold mt-2">Legends of Valor Battle Pass</h3>
+                            <p class="text-gray-300 text-sm">$14.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Get the Season 3 Battle Pass for Legends of Valor, including exclusive rewards and challenges.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Card 3 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80" alt="Neon Horizon VR Bundle" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-secondary text-white text-xs font-bold px-2 py-1 rounded">VR BUNDLE</span>
+                            <h3 class="text-2xl font-bold mt-2">Neon Horizon VR Bundle</h3>
+                            <p class="text-gray-300 text-sm">$29.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Enhance your Neon Horizon experience with this exclusive VR bundle, including tracks and vehicles.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Card 4 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1516321165247-7d89b01a3633?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Shadow Strike Collector's Edition" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded">COLLECTOR'S</span>
+                            <h3 class="text-2xl font-bold mt-2">Shadow Strike Collector's Edition</h3>
+                            <p class="text-gray-300 text-sm">$49.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Get the Shadow Strike Collector's Edition with exclusive skins, art book, and in-game bonuses.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Card 5 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1578637387939-43b3e2601e0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Galactic Empires Premium Pack" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">PREMIUM</span>
+                            <h3 class="text-2xl font-bold mt-2">Galactic Empires Premium Pack</h3>
+                            <p class="text-gray-300 text-sm">$24.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Unlock new factions and resources with the Galactic Empires Premium Pack.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Card 6 -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1628191013641-2c9f3f8a62f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Starfall Odyssey Cosmetic Bundle" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-secondary text-white text-xs font-bold px-2 py-1 rounded">COSMETIC</span>
+                            <h3 class="text-2xl font-bold mt-2">Starfall Odyssey Cosmetic Bundle</h3>
+                            <p class="text-gray-300 text-sm">$17.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Customize your Starfall Odyssey character with this exclusive cosmetic bundle.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Shop Items (Initially Hidden) -->
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group hidden">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1593305841991-2a3b7d3a94c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Quantum Rift Starter Pack" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded">STARTER</span>
+                            <h3 class="text-2xl font-bold mt-2">Quantum Rift Starter Pack</h3>
+                            <p class="text-gray-300 text-sm">$9.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Kickstart your Quantum Rift journey with this starter pack, including weapons and skins.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group hidden">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d540f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Mystic Realms Legendary Armor" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">ARMOR</span>
+                            <h3 class="text-2xl font-bold mt-2">Mystic Realms Legendary Armor</h3>
+                            <p class="text-gray-300 text-sm">$22.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Equip the Legendary Armor set in Mystic Realms for enhanced stats and stunning visuals.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-card bg-gray-900 rounded-xl overflow-hidden relative group hidden">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1614015824107-c6b57f5c1d74?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="BattleForge Card Pack" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="bg-secondary text-white text-xs font-bold px-2 py-1 rounded">CARD PACK</span>
+                            <h3 class="text-2xl font-bold mt-2">BattleForge Ultimate Card Pack</h3>
+                            <p class="text-gray-300 text-sm">$12.99</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 mb-4">
+                            Expand your BattleForge collection with this ultimate card pack, featuring rare cards.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="action-button add-to-cart-button flex-grow bg-gray-800 hover:bg-primary text-white py-2 rounded-lg transition flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                            <button class="action-button learn-more-button flex-grow bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white py-2 rounded-lg transition">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button id="load-more" class="action-button load-more-button border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg text-lg font-bold transition transform hover:scale-105">
+                    LOAD MORE ITEMS <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-gradient-to-r from-primary to-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-6 font-orbitron">JOIN OUR NEWSLETTER</h2>
+            <p class="text-white mb-8 text-lg">
+                Stay updated with new game releases, exclusive content, and special offers.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                <input type="email" placeholder="Your email address" class="newsletter-input flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                <button class="action-button bg-black text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-900 transition">
+                    SUBSCRIBE <i class="fas fa-paper-plane ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 font-orbitron">NEXUS</h3>
+                    <p class="text-gray-400 mb-4">
+                        Revolutionizing gaming through innovation and player-focused experiences.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">GAMES</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cyber Nexus</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Legends of Valor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Neon Horizon</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shadow Strike</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Galactic Empires</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">COMPANY</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">News</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">SUPPORT</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Community</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Server Status</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Feedback</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>© 2023 Nexus Gaming. All rights reserved. All trademarks are property of their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const themeToggle = document.getElementById('theme-toggle');
+            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+            let hideTimeout = null;
+
+            // Toggle mobile menu
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dropdown menu with delay
+            dropdown.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                dropdownMenu.classList.remove('hidden');
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdownMenu.classList.add('hidden');
+                }, 200);
+            });
+
+            dropdownMenu.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+            });
+
+            dropdownMenu.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdownMenu.classList.add('hidden');
+                }, 200);
+            });
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                const isLightMode = document.body.classList.toggle('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                themeIcon.classList.toggle('fa-moon', !isLightMode);
+                themeIcon.classList.toggle('fa-sun', isLightMode);
+                mobileThemeIcon.classList.toggle('fa-moon', !isLightMode);
+                mobileThemeIcon.classList.toggle('fa-sun', isLightMode);
+            }
+
+            // Load theme from localStorage
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                mobileThemeIcon.classList.remove('fa-moon');
+                mobileThemeIcon.classList.add('fa-sun');
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+            mobileThemeToggle.addEventListener('click', toggleTheme);
+
+            // Animation trigger on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeIn');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.shop-card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Load More functionality
+            const loadMoreButton = document.querySelector('#load-more');
+            const shopGrid = document.querySelector('#shop-grid');
+            let visibleItems = 6; // Initial number of visible items
+            const itemsPerLoad = 3; // Number of items to load each time
+
+            loadMoreButton.addEventListener('click', () => {
+                const hiddenCards = document.querySelectorAll('.shop-card.hidden');
+                const nextCards = Array.from(hiddenCards).slice(0, itemsPerLoad);
+
+                nextCards.forEach(card => {
+                    card.classList.remove('hidden');
+                    card.style.display = 'block';
+                    observer.observe(card); // Re-observe for animations
+                });
+
+                visibleItems += nextCards.length;
+
+                // Hide button if no more items to load
+                if (visibleItems >= document.querySelectorAll('.shop-card').length) {
+                    loadMoreButton.style.display = 'none';
+                }
+            });
+
+            // Update cart count (example)
+            function updateCartCount(count) {
+                document.getElementById('cart-count').textContent = count;
+                document.getElementById('mobile-cart-count').textContent = count;
+            }
+
+            updateCartCount(2); // Replace with dynamic cart count
+
+            // Update user profile (example)
+            function updateUserProfile(username, avatarUrl) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('mobile-username').textContent = username;
+                document.querySelectorAll('.user-avatar').forEach(img => {
+                    img.src = avatarUrl;
+                });
+                document.getElementById('login-link').classList.add('hidden');
+                document.getElementById('mobile-login-link').classList.add('hidden');
+            }
+
+            updateUserProfile('GamerX123', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80');
+        });
+    </script>
+</body>
+</html>

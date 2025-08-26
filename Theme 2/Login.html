@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Nexus Gaming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6c5ce7',
+                        secondary: '#a29bfe',
+                        dark: '#2d3436',
+                        accent: '#00cec9',
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0f0f1a;
+            color: white;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #6c5ce7 0%, #2d3436 100%);
+        }
+
+        body.light-mode .hero-gradient {
+            background: linear-gradient(135deg, #6c5ce7 0%, #e2e8f0 100%);
+        }
+
+        body.light-mode .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .game-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3), 0 4px 6px -2px rgba(124, 58, 237, 0.1);
+        }
+
+        body.light-mode .game-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(108, 92, 231, 0.8);
+        }
+
+        body.light-mode .glow-text {
+            text-shadow: none;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+            }
+        }
+
+        body.light-mode .pulse {
+            animation: pulse-light 2s infinite;
+        }
+
+        @keyframes pulse-light {
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+            }
+        }
+
+        .login-container {
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+        }
+
+        body.light-mode .login-container {
+            background: #e5e7eb;
+            border: 1px solid #d1d5db;
+        }
+
+        .input-field {
+            background: rgba(30, 30, 45, 0.7);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .input-field {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            color: #1a1a1a;
+        }
+
+        .input-field:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .social-btn {
+            transition: all 0.3s ease;
+            background: rgba(30, 30, 45, 0.7);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        body.light-mode .social-btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        body.light-mode .social-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        body.light-mode .divider {
+            color: #4b5563;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        body.light-mode .divider::before, body.light-mode .divider::after {
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        .divider::before {
+            margin-right: 1rem;
+        }
+
+        .divider::after {
+            margin-left: 1rem;
+        }
+
+        .floating-label {
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        body.light-mode .floating-label {
+            color: #4b5563;
+        }
+
+        .input-field:focus + .floating-label,
+        .input-field:not(:placeholder-shown) + .floating-label {
+            transform: translateY(-1.5rem) scale(0.85);
+            color: #a29bfe;
+        }
+
+        body.light-mode .input-field:focus + .floating-label,
+        body.light-mode .input-field:not(:placeholder-shown) + .floating-label {
+            color: #6c5ce7;
+        }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        body.light-mode nav {
+            background-color: #f8f9fa;
+        }
+
+        body.light-mode .bg-black {
+            background-color: #f8f9fa;
+        }
+
+        body.light-mode .bg-gray-900 {
+            background-color: #e5e7eb;
+        }
+
+        body.light-mode .text-gray-300 {
+            color: #374151;
+        }
+
+        body.light-mode .text-gray-400 {
+            color: #4b5563;
+        }
+
+        body.light-mode .text-white {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .border-gray-800 {
+            border-color: #d1d5db;
+        }
+
+        body.light-mode .border-gray-700 {
+            border-color: #9ca3af;
+        }
+
+        body.light-mode .text-primary {
+            color: #6c5ce7;
+        }
+
+        body.light-mode .hover\:bg-primary:hover {
+            background-color: #5a4cd1;
+        }
+
+        body.light-mode .hover\:text-white:hover {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .bg-primary {
+            background-color: #6c5ce7;
+        }
+
+        body.light-mode .hover\:bg-purple-700:hover {
+            background-color: #5a4cd1;
+        }
+
+        body.light-mode .user-avatar {
+            border: 2px solid #d1d5db;
+        }
+
+        body.light-mode .fa-chevron-down,
+        body.light-mode .fa-shopping-cart,
+        body.light-mode .fa-moon,
+        body.light-mode .fa-sun,
+        body.light-mode .fa-bars,
+        body.light-mode .fa-lock,
+        body.light-mode .fa-shield-alt {
+            color: #1a1a1a;
+        }
+
+        body.light-mode .fa-google {
+            color: #dc2626;
+        }
+
+        body.light-mode .fa-facebook-f {
+            color: #3b5998;
+        }
+
+        body.light-mode .fa-twitter {
+            color: #1da1f2;
+        }
+
+        body.light-mode .fa-discord {
+            color: #5865f2;
+        }
+                  .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-black bg-opacity-80 backdrop-blur-md fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="Home.html">
+                            <span class="text-2xl font-bold text-primary font-orbitron glow-text">NEXUS</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Menu Items -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="Home.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                    <a href="Game.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Games</a>
+                    <a href="News.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">News</a>
+                    <a href="Esports.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Esports</a>
+                    <a href="Shop.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">Shop</a>
+                    
+                    <!-- Cart -->
+                    <a href="cart.html" class="relative text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Cart
+                        <span id="cart-count" class="absolute top-0 right-0 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                    </a>
+
+                    <!-- User Profile -->
+                    <div class="relative dropdown">
+                        <button class="text-white hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+                            <span id="username">GamerX123</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-gray-900 rounded-lg shadow-lg py-2 z-50">
+                            <a href="accout.html" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Account</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Login</a>
+                            <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Logout</a>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition flex items-center">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="Home.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Home</a>
+                <a href="Game.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Games</a>
+                <a href="News.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">News</a>
+                <a href="Esports.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Esports</a>
+                <a href="Shop.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition">Shop</a>
+                <a href="cart.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium transition flex items-center">
+                    <i class="fas fa-shopping-cart mr-2"></i> Cart
+                    <span id="mobile-cart-count" class="bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center ml-2">2</span>
+                </a>
+                <div class="border-t border-gray-700 pt-2">
+                    <div class="flex items-center px-4 py-2">
+                        <img src="https://images.unsplash.com/photo-1516321165247-7d89b01a3633?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User Avatar" class="w-8 h-8 rounded-full mr-2 user-avatar">
+                        <span id="mobile-username" class="text-white font-bold">GamerX123</span>
+                    </div>
+                    <a href="account.html" class="block px-4 py-2 text-white bg-primary hover:bg-purple-700 transition">Account</a>
+                    <a href="Login.html" id="mobile-login-link" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition hidden">Login</a>
+                    <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition">Logout</a>
+                    <button id="mobile-theme-toggle" class="block px-4 py-2 text-gray-300 hover:bg-primary hover:text-white transition flex items-center">
+                        <i id="mobile-theme-icon" class="fas fa-moon mr-2"></i> Toggle Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="hero-gradient min-h-screen flex items-center justify-center p-4 pt-32 pb-20">
+        <div class="absolute inset-0 opacity-20 hero-overlay">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')] bg-cover bg-center"></div>
+        </div>
+        <div class="w-full max-w-md mx-auto z-10">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 font-orbitron glow-text">WELCOME BACK</h1>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-400">Sign in to access your games, friends, and rewards</p>
+            </div>
+
+            <div class="login-container rounded-xl p-8 shadow-2xl">
+                <!-- Login Form -->
+                <form class="space-y-6">
+                    <div class="relative">
+                        <input type="email" id="email" class="input-field w-full px-4 py-3 rounded-lg placeholder-transparent" placeholder="Email Address" required>
+                        <label for="email" class="floating-label absolute left-4 top-3 text-gray-400">Email Address</label>
+                    </div>
+                    
+                    <div class="relative">
+                        <input type="password" id="password" class="input-field w-full px-4 py-3 rounded-lg placeholder-transparent" placeholder="Password" required>
+                        <label for="password" class="floating-label absolute left-4 top-3 text-gray-400">Password</label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-600 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-300">Remember me</label>
+                        </div>
+                        
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-primary hover:text-purple-500">Forgot password?</a>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-primary hover:bg-purple-700 text-white py-3 px-4 rounded-lg font-bold text-lg transition transform hover:scale-[1.02] pulse">
+                        SIGN IN
+                    </button>
+                </form>
+                
+                <div class="divider my-6">OR CONTINUE WITH</div>
+                
+                <!-- Social Login -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="social-btn flex items-center justify-center py-2 px-4 rounded-lg">
+                        <i class="fab fa-google text-red-500 mr-2"></i>
+                        <span>Google</span>
+                    </button>
+                    <button class="social-btn flex items-center justify-center py-2 px-4 rounded-lg">
+                        <i class="fab fa-facebook-f text-blue-500 mr-2"></i>
+                        <span>Facebook</span>
+                    </button>
+                    <button class="social-btn flex items-center justify-center py-2 px-4 rounded-lg">
+                        <i class="fab fa-twitter text-blue-400 mr-2"></i>
+                        <span>Twitter</span>
+                    </button>
+                    <button class="social-btn flex items-center justify-center py-2 px-4 rounded-lg">
+                        <i class="fab fa-discord text-indigo-400 mr-2"></i>
+                        <span>Discord</span>
+                    </button>
+                </div>
+                
+                <div class="mt-6 text-center text-sm text-gray-400">
+                    Don't have an account? 
+                    <a href="#" class="font-medium text-primary hover:text-purple-500">Sign up</a>
+                </div>
+            </div>
+            
+            <!-- Security Info -->
+            <div class="mt-8 text-center text-xs text-gray-400">
+                <p><i class="fas fa-lock mr-1"></i> Your information is protected with 256-bit encryption</p>
+                <p class="mt-1"><i class="fas fa-shield-alt mr-1"></i> We never share your data with third parties</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 font-orbitron">NEXUS</h3>
+                    <p class="text-gray-400 mb-4">
+                        Revolutionizing gaming through innovation and player-focused experiences.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">GAMES</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Cyber Nexus</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Legends of Valor</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Neon Horizon</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shadow Strike</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Galactic Empires</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">COMPANY</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">News</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">SUPPORT</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Community</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Server Status</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Feedback</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>© 2023 Nexus Gaming. All rights reserved. All trademarks are property of their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            const themeToggle = document.getElementById('theme-toggle');
+            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+            let hideTimeout = null;
+
+            // Toggle mobile menu
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dropdown menu with delay
+            dropdown.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                dropdownMenu.classList.remove('hidden');
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdownMenu.classList.add('hidden');
+                }, 200);
+            });
+
+            dropdownMenu.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+            });
+
+            dropdownMenu.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    dropdownMenu.classList.add('hidden');
+                }, 200);
+            });
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                const isLightMode = document.body.classList.toggle('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                themeIcon.classList.toggle('fa-moon', !isLightMode);
+                themeIcon.classList.toggle('fa-sun', isLightMode);
+                mobileThemeIcon.classList.toggle('fa-moon', !isLightMode);
+                mobileThemeIcon.classList.toggle('fa-sun', isLightMode);
+            }
+
+            // Load theme from localStorage
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                mobileThemeIcon.classList.remove('fa-moon');
+                mobileThemeIcon.classList.add('fa-sun');
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+            mobileThemeToggle.addEventListener('click', toggleTheme);
+
+            // Floating label functionality
+            const inputs = document.querySelectorAll('.input-field');
+            inputs.forEach(input => {
+                if (input.value) {
+                    input.nextElementSibling.classList.add('transform', '-translate-y-6', 'scale-75', 'text-primary');
+                }
+                input.addEventListener('focus', function() {
+                    this.nextElementSibling.classList.add('transform', '-translate-y-6', 'scale-75', 'text-primary');
+                });
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.nextElementSibling.classList.remove('transform', '-translate-y-6', 'scale-75', 'text-primary');
+                    }
+                });
+            });
+
+            // Simple form submission (placeholder)
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Login functionality would be implemented here in a production environment');
+            });
+
+            // Update cart count (example)
+            function updateCartCount(count) {
+                document.getElementById('cart-count').textContent = count;
+                document.getElementById('mobile-cart-count').textContent = count;
+            }
+
+            updateCartCount(2); // Replace with dynamic cart count
+
+            // Update user profile (example)
+            function updateUserProfile(username, avatarUrl) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('mobile-username').textContent = username;
+                document.querySelectorAll('.user-avatar').forEach(img => {
+                    img.src = avatarUrl;
+                });
+                document.getElementById('login-link').classList.add('hidden');
+                document.getElementById('mobile-login-link').classList.add('hidden');
+            }
+
+            updateUserProfile('GamerX123', 'https://images.unsplash.com/photo-1516321165247-7d89b01a3633?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80');
+        });
+    </script>
+</body>
+</html>
